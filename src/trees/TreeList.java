@@ -1028,12 +1028,14 @@ public class TreeList<E extends Comparable<? super E>> {
 
 	private void deleteNode(Node<E> n) {
 		size--;
-
+		
+		// strictly internal node, find successor, copy its value to current node and point current to successor
 		if (n.left != null && n.right != null) {
 			Node<E> s = successor(n);
 			n.e = s.e;
 			n = s;
 		}
+		
 		// now removing successor node..
 		Node<E> replacementNode = n.left != null ? n.left : n.right;
 
@@ -1055,14 +1057,14 @@ public class TreeList<E extends Comparable<? super E>> {
 		else if (n.parent == null)
 			root = null;
 		else {
-			// no repalcement & we are not only one..
-
-			if (n == n.parent.left)
-				n.parent.left = null;
-			else
-				n.parent.right = null;
-
-			n.parent = null;
+			// no repalcement & we are not only one, remove current node
+			if (n.parent != null) {
+				if (n == n.parent.left)
+					n.parent.left = null;
+				else if (n == n.parent.right)
+					n.parent.right = null;
+				n.parent = null;
+			}
 		}
 	}
 

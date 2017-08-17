@@ -234,6 +234,9 @@ public class Array<E extends Comparable<? super E>> {
 		return false;
 	}
 
+	/**
+	 * linear time sorting if number set is not too large
+	 */
 	public void countSort() {
 		@SuppressWarnings("unchecked")
 		E[] temp = (E[]) new Comparable[elements.length];
