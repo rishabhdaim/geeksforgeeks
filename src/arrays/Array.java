@@ -239,9 +239,9 @@ public class Array<E extends Comparable<? super E>> {
 	 */
 	public void countSort() {
 		@SuppressWarnings("unchecked")
-		E[] temp = (E[]) new Comparable[elements.length];
+		final E[] temp = (E[]) new Comparable[elements.length];
 
-		int[] count = new int[100 + 1];
+		final int[] count = new int[100 + 1];
 
 		// Store count of each character
 		for (int i = 0; i < elements.length; i++)
@@ -263,9 +263,9 @@ public class Array<E extends Comparable<? super E>> {
 			elements[i] = temp[i];
 	}
 
-	public void radixSort(int base) {
-		int maxIndex = maxValueIndex(0, elements.length - 1);
-		int max = (Integer) elements[maxIndex];
+	public void radixSort(final int base) {
+		final int maxIndex = maxValueIndex(0, elements.length - 1);
+		final int max = (Integer) elements[maxIndex];
 
 		for (int i = 1; max / i > 0; i *= base)
 			countSort(i, base);
@@ -277,9 +277,10 @@ public class Array<E extends Comparable<? super E>> {
 	 *            value increases by factor of 10 everytime..
 	 */
 	@SuppressWarnings("unchecked")
-	private void countSort(int exp, int base) {
-		Integer[] output = new Integer[elements.length];
-		int[] count = new int[base];
+	private void countSort(final int exp, final int base) {
+		
+		final Integer[] output = new Integer[elements.length];
+		final int[] count = new int[base];
 
 		// filling count arr with no. of occurences..
 		for (int i = 0; i < elements.length; i++)
@@ -288,6 +289,7 @@ public class Array<E extends Comparable<? super E>> {
 		// calculating sum..
 		for (int i = 1; i < base; i++)
 			count[i] += count[i - 1];
+		
 		// filling output array for temp storage..
 		// this is done opposite to normal countSort as we had to maintain order
 		// in lower bits..
@@ -297,7 +299,6 @@ public class Array<E extends Comparable<? super E>> {
 		}
 
 		// storing back to arr
-
 		for (int i = 0; i < elements.length; i++)
 			elements[i] = (E) output[i];
 	}
