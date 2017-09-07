@@ -2416,9 +2416,7 @@ public class Array<E extends Comparable<? super E>> {
 			}
 			System.out.print(max +" ");
 		}
-		
 		System.out.println();
-		
 	}
 	
 	// The idea is to compute value of a rotation using value of previous rotation. When we rotate an array by one, following changes happen in sum of i*arr[i].
