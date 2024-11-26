@@ -39,7 +39,7 @@ public class LowArrayApp {
 			if (arr.getElem(j) == searchKey) // found item?
 				break;
 		if (j == nElems) // no
-			System.out.println("Can’t find " + searchKey);
+			System.out.println("Can't find " + searchKey);
 		else
 			// yes
 			System.out.println("Found " + searchKey);

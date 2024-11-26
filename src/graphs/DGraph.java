@@ -42,7 +42,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	public void addVertex(E e) {
 		if (size == noOfVertex)
 			grow();
-		vertexs[size++] = new Vertex<E>(e);
+		vertexs[size++] = new Vertex<>(e);
 	}
 
 	private void grow() {
@@ -269,7 +269,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	 */
 	private void dfsUtil(final int root) {
 		
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		stack.addFirst(root);
 		vertexs[root].isVisited = true; // mark it is visited
 		int curr;
@@ -364,7 +364,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	 * to find and prints all strongly connected components
 	 */
 	public void printScc() {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Fill vertices in stack according to their finishing times
 		for (int i = 0; i < noOfVertex; i++)
@@ -430,7 +430,7 @@ public class DGraph<E extends Comparable<? super E>> {
 		// Do DFS traversal starting from first vertex.
 		dfsUtil(n);
 
-		// If DFS traversal doesn’t visit all vertices, then return false.
+		// If DFS traversal doesn't visit all vertices, then return false.
 		for (int i = 0; i < noOfVertex; i++)
 			if (vertexs[i].inDegree > 0 && !vertexs[i].isVisited)
 				return false;
@@ -530,7 +530,7 @@ public class DGraph<E extends Comparable<? super E>> {
 
 		printAdjMat();
 
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one
 		for (int i = 0; i < noOfVertex; i++)
@@ -540,7 +540,7 @@ public class DGraph<E extends Comparable<? super E>> {
 
 		// Print contents of stack
 		while (!stack.isEmpty())
-			System.out.print(new Character((char) ('a' + stack.poll())) + " ");
+			System.out.print((char) ('a' + stack.poll()) + " ");
 
 		unVisitVertexes();
 	}
@@ -552,7 +552,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	 * if the graph is not a DAG.
 	 * 
 	 * 
-	 * In topological sorting, we use a temporary stack. We don’t print the
+	 * In topological sorting, we use a temporary stack. We don't print the
 	 * vertex immediately, we first recursively call topological sorting for all
 	 * its adjacent vertices, then push it to a stack. Finally, print contents
 	 * of stack. Note that a vertex is pushed to stack only when all of its
@@ -561,7 +561,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	 */
 	public void topologicalSort() {
 		
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one
@@ -666,7 +666,7 @@ public class DGraph<E extends Comparable<? super E>> {
 	 */
 	public boolean isReachable(final int src, final int dest) {
 		// this function is also an example of DFS
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		stack.addFirst(src);
 		vertexs[src].isVisited = true;
 		int curr;

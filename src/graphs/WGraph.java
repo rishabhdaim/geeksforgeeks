@@ -44,7 +44,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	public void addVertex(E e) {
 		if (size == noOfVertex)
 			grow();
-		vertexs[size++] = new Vertex<E>(e);
+		vertexs[size++] = new Vertex<>(e);
 	}
 
 	private void grow() {
@@ -265,7 +265,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 *            whose DFS is to found
 	 */
 	private void dfsUtil(int root) {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		stack.addFirst(root);
 		vertexs[root].isVisited = true;
 		int curr;
@@ -305,7 +305,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 *            vertex from where breadth first traversal is to done
 	 */
 	private void bfsUtil(int i) {
-		final DoubleLinkedList<Integer> queue = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> queue = new DoubleLinkedList<>();
 		queue.offer(i);
 		vertexs[i].isVisited = true;
 
@@ -329,7 +329,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 * @param root
 	 */
 	public void fillOrder(int root) {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		fillOrderUtil(root, stack);
 	}
 
@@ -355,7 +355,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 * to find and prints all strongly connected components
 	 */
 	public void printScc() {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Fill vertices in stack according to their finishing times
 		for (int i = 0; i < noOfVertex; i++)
@@ -425,7 +425,7 @@ public class WGraph<E extends Comparable<? super E>> {
 
 		dfsUtil(n);
 
-		// If DFS traversal doesn’t visit all vertices, then return false.
+		// If DFS traversal doesn't visit all vertices, then return false.
 
 		for (int i = 0; i < noOfVertex; i++)
 			if (vertexs[i].inDegree > 0 && !vertexs[i].isVisited)
@@ -530,7 +530,7 @@ public class WGraph<E extends Comparable<? super E>> {
 
 		printAdjMat();
 
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one
 		for (int i = 0; i < noOfVertex; i++)
@@ -552,7 +552,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 * graph is not a DAG.
 	 * 
 	 * 
-	 * In topological sorting, we use a temporary stack. We don’t print the
+	 * In topological sorting, we use a temporary stack. We don't print the
 	 * vertex immediately, we first recursively call topological sorting for all
 	 * its adjacent vertices, then push it to a stack. Finally, print contents
 	 * of stack. Note that a vertex is pushed to stack only when all of its
@@ -560,7 +560,7 @@ public class WGraph<E extends Comparable<? super E>> {
 	 * stack.
 	 */
 	public void topologicalSort() {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one

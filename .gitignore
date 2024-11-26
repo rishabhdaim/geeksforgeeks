@@ -1,1 +1,7 @@
 /target/
+.project
+.classpath
+geeksforgeeks.iml
+/.idea
+/.settings
+/bin

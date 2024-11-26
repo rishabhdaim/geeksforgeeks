@@ -1356,7 +1356,7 @@ public class DemoString {
 
 	// 2) If i <= R then let K = i-L,  now Z[i] >= min(Z[K], R-i+1)  because str[i..] matches with str[K..] for atleast R-i+1 characters (they are in
     // 	[L,R] interval which we know is a prefix substring).     
-	//  Now two sub cases arise – 
+	//  Now two subcases arise
 	//      a) If Z[K] < R-i+1  then there is no prefix substring starting at 
 	//         str[i] (otherwise Z[K] would be larger)  so  Z[i] = Z[K]  and 
 	//         interval [L,R] remains same.
@@ -1673,15 +1673,15 @@ public class DemoString {
 	 * KMP algorithm does some preprocessing over the pattern pat[] and
 	 * constructs an auxiliary array lps[] of size m (same as size of pattern).
 	 * Here name lps indicates longest proper prefix which is also suffix.. For
-	 * each sub-pattern pat[0…i] where i = 0 to m-1, lps[i] stores length of the
+	 * each sub-pattern pat[0..i] where i = 0 to m-1, lps[i] stores length of the
 	 * maximum matching proper prefix which is also a suffix of the sub-pattern
 	 * pat[0..i].
 	 * 
 	 * 
-	 * Examples: For the pattern “AABAACAABAA”, lps[] is [0, 1, 0, 1, 2, 0, 1,
-	 * 2, 3, 4, 5] For the pattern “ABCDE”, lps[] is [0, 0, 0, 0, 0] For the
-	 * pattern “AAAAA”, lps[] is [0, 1, 2, 3, 4] For the pattern “AAABAAA”,
-	 * lps[] is [0, 1, 2, 0, 1, 2, 3] For the pattern “AAACAAAAAC”, lps[] is [0,
+	 * Examples: For the pattern 'AABAACAABAA', lps[] is [0, 1, 0, 1, 2, 0, 1,
+	 * 2, 3, 4, 5] For the pattern 'ABCDE', lps[] is [0, 0, 0, 0, 0] For the
+	 * pattern 'AAAAA', lps[] is [0, 1, 2, 3, 4] For the pattern 'AAABAAA',
+	 * lps[] is [0, 1, 2, 0, 1, 2, 3] For the pattern 'AAACAAAAAC', lps[] is [0,
 	 * 1, 2, 0, 1, 2, 3, 3, 3, 4]
 	 * 
 	 * 

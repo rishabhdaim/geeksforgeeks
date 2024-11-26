@@ -381,13 +381,13 @@ public class Array<E extends Comparable<? super E>> {
 				elements[count++] = elements[i];
 
 		while (count < l)
-			elements[count++] = (E) new Integer(0);
+			elements[count++] = (E) Integer.valueOf(0);
 	}
 
 	public int[] mergeKSortedArrays(int[][] arr, int k) {
 		int[] output = new int[arr.length * k];
 
-		Heap<Integer> heap = new Heap<Integer>();
+		Heap<Integer> heap = new Heap<>();
 
 		for (int i = 0; i < arr.length; i++)
 			heap.buildHeapArr(arr[i][0], i, 1);
@@ -423,7 +423,7 @@ public class Array<E extends Comparable<? super E>> {
 			return elements[mid + 1];
 		// This case causes O(n) time in case of duplicates..
 		if (elements[l].compareTo(elements[mid]) == 0 && elements[h].compareTo(elements[mid]) == 0)
-			return (E) new Integer(Math.min((Integer) findMinInRotatedArray(l, mid - 1), (Integer) findMinInRotatedArray(mid + 1, h)));
+			return (E) Integer.valueOf(Math.min((Integer) findMinInRotatedArray(l, mid - 1), (Integer) findMinInRotatedArray(mid + 1, h)));
 		// Check if mid itself is minimum element
 		if (mid > l && elements[mid].compareTo(elements[mid - 1]) < 0)
 			return elements[mid];
@@ -471,7 +471,7 @@ public class Array<E extends Comparable<? super E>> {
 		EleCount<E>[] eleCounts = new EleCount[k - 1];
 
 		for (int i = 0; i < k - 1; i++)
-			eleCounts[i] = new EleCount<E>(null, 0);
+			eleCounts[i] = new EleCount<>(null, 0);
 		/*
 		 * Step 2: Process all elements of input array
 		 */
@@ -750,7 +750,7 @@ public class Array<E extends Comparable<? super E>> {
 	}
 
 	public void mergeOverlappingIntervals(int[][] arr) {
-		DoubleLinkedList<Interval> stack = new DoubleLinkedList<Interval>();
+		DoubleLinkedList<Interval> stack = new DoubleLinkedList<>();
 		Interval[] intervals = new Interval[arr.length];
 		for (int i = 0; i < arr.length; i++)
 			intervals[i] = new Interval(arr[i][0], arr[i][1]);
@@ -1043,14 +1043,14 @@ public class Array<E extends Comparable<? super E>> {
 		// Case 2: Now find the maximum sum that includes corner elements
 		for (int i = 0; i <= n; i++) {
 			maxWrap += (Integer) elements[i]; // Calculate array-sum
-			elements[i] = (E) new Integer(-(Integer) elements[i]); // invert the array (change sign)
+			elements[i] = (E) Integer.valueOf(-(Integer) elements[i]); // invert the array (change sign)
 		}
 		
 		// max sum with corner elements will be: array-sum - (-max subarray sum of inverted array)
 		maxWrap += maxSubArrSumWithKadaneAlgo(n);
 		
 		// fix the array to original position
-		for (int i = 0; i <= n; i++) elements[i] = (E) new Integer(-(Integer) elements[i]);
+		for (int i = 0; i <= n; i++) elements[i] = (E) Integer.valueOf(-(Integer) elements[i]);
 		return Math.max(maxKadane, maxWrap);
 	}
 
@@ -1567,7 +1567,7 @@ public class Array<E extends Comparable<? super E>> {
 	    // The queue will store indexes of useful elements in every window and it will
 	    // maintain decreasing order of values from front to rear in Qi, i.e., 
 	    // arr[Qi.front[]] to arr[Qi.rear()] are sorted in decreasing order
-		final DoubleLinkedList<Integer> deque = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> deque = new DoubleLinkedList<>();
 		int i;
 		/* Process first k (or first window) elements of array */
 		for (i = 0; i < k; i++) {
@@ -1948,7 +1948,7 @@ public class Array<E extends Comparable<? super E>> {
 	public void firstRepeatingElement() {
 
 		final Integer[] integers = (Integer[]) elements;
-		final HashMap<Integer, Object> hashMap = new HashMap<Integer, Object>();
+		final HashMap<Integer, Object> hashMap = new HashMap<>();
 
 		int min = -1;
 		for (int i = elements.length - 1; i >= 0; i--)

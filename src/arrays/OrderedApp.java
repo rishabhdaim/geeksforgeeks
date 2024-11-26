@@ -30,7 +30,7 @@ public class OrderedApp {
 		if (arr.find(searchKey) != arr.size())
 			System.out.println("Found " + searchKey);
 		else
-			System.out.println("Can’t find " + searchKey);
+			System.out.println("Can't find " + searchKey);
 		arr.display(); // display items
 		arr.delete(00); // delete 3 items
 		arr.delete(55);

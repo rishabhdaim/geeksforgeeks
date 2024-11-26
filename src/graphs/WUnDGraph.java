@@ -327,7 +327,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 *            vertex from where breadth first traversal is to done
 	 */
 	private void bfsUtil(int i) {
-		final DoubleLinkedList<Integer> queue = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> queue = new DoubleLinkedList<>();
 		queue.offer(i);
 		vertexs[i].isVisited = true;
 
@@ -351,7 +351,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * @param root
 	 */
 	public void fillOrder(int root) {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		fillOrderUtil(root, stack);
 	}
 
@@ -377,7 +377,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * to find and prints all strongly connected components
 	 */
 	public void printScc() {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Fill vertices in stack according to their finishing times
 		for (int i = 0; i < noOfVertex; i++)
@@ -447,7 +447,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 
 		dfsUtil(n);
 
-		// If DFS traversal doesn’t visit all vertices, then return false.
+		// If DFS traversal doesn't visit all vertices, then return false.
 
 		for (int i = 0; i < noOfVertex; i++)
 			if (vertexs[i].inDegree > 0 && !vertexs[i].isVisited)
@@ -552,7 +552,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 
 		printAdjMat();
 
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one
 		for (int i = 0; i < noOfVertex; i++)
@@ -562,7 +562,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 
 		// Print contents of stack
 		while (!stack.isEmpty())
-			System.out.print(new Character((char) ('a' + stack.poll())) + " ");
+			System.out.print((char) ('a' + stack.poll()) + " ");
 
 		unVisitVertexes();
 	}
@@ -574,7 +574,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * graph is not a DAG.
 	 * 
 	 * 
-	 * In topological sorting, we use a temporary stack. We don’t print the
+	 * In topological sorting, we use a temporary stack. We don't print the
 	 * vertex immediately, we first recursively call topological sorting for all
 	 * its adjacent vertices, then push it to a stack. Finally, print contents
 	 * of stack. Note that a vertex is pushed to stack only when all of its
@@ -582,7 +582,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * stack.
 	 */
 	public void topologicalSort() {
-		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<Integer>();
+		final DoubleLinkedList<Integer> stack = new DoubleLinkedList<>();
 
 		// Call the recursive helper function to store Topological Sort starting
 		// from all vertices one by one
@@ -662,7 +662,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	}
 
 	/**
-	 * Below are the steps for finding MST using Kruskal’s algorithm
+	 * Below are the steps for finding MST using Kruskal's algorithm
 	 * 
 	 * 1. Sort all the edges in non-decreasing order of their weight.
 	 * 
@@ -766,9 +766,9 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * 1) Create a set mstSet that keeps track of vertices already included in MST. 
 	 * 2) Assign a key value to all vertices in the input graph. Initialize all key values as INFINITE. Assign key value as 0 for
 	 * the first vertex so that it is picked first. 
-	 * 3) While mstSet doesn’t include all vertices ….
-	 * 		a) Pick a vertex u which is not there in mstSet and has minimum key value. ….
-	 * 		b) Include u to mstSet. ….
+	 * 3) While mstSet doesn't include all vertices :.
+	 * 		a) Pick a vertex u which is not there in mstSet and has minimum key value...
+	 * 		b) Include u to mstSet...
 	 * 		c) Update key value of all adjacent vertices of u. To update the key values, 
 	 * 		   iterate through all adjacent vertices. For every adjacent vertex v, 
 	 * 		   if weight of edge u-v is less than the previous key value of v, update the key value as weight of u-v
@@ -840,7 +840,7 @@ public class WUnDGraph<E extends Comparable<? super E>> {
      * Algorithm 
      * 1) Create a set sptSet (shortest path tree set) that keeps track of vertices included in shortest path tree, i.e., whose minimum distance from source is calculated and finalized. Initially, this set is empty.
      * 2) Assign a distance value to all vertices in the input graph. Initialize all distance values as INFINITE. Assign distance value as 0 for the source vertex so that it is picked first.
-     * 3) While sptSet doesn’t include all vertices
+     * 3) While sptSet doesnï¿½t include all vertices
      * 		a) Pick a vertex u which is not there in sptSet and has minimum distance value.
      * 		b) Include u to sptSet.
      * 		c) Update distance value of all adjacent vertices of u. To update the distance values, 
@@ -889,10 +889,10 @@ public class WUnDGraph<E extends Comparable<? super E>> {
 	 * The 2-Approximate Greedy Algorithm: 
 	 * 1) Choose the first center arbitrarily. 
 	 * 2) Choose remaining k-1 centers using the
-	 * following criteria. Let c1, c2, c3, … ci be the already chosen centers.
-	 * Choose (i+1)’th center by picking the city which is farthest from already
+	 * following criteria. Let c1, c2, c3, ï¿½ ci be the already chosen centers.
+	 * Choose (i+1)ï¿½th center by picking the city which is farthest from already
 	 * selected centers, i.e, the point p which has following value as maximum
-	 * Min[dist(p, c1), dist(p, c2), dist(p, c3), …. dist(p, ci)]
+	 * Min[dist(p, c1), dist(p, c2), dist(p, c3), ï¿½. dist(p, ci)]
 	 * 
 	 * @param k
 	 */

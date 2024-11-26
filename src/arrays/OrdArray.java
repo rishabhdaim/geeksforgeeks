@@ -51,7 +51,7 @@ public class OrdArray {
 
 	public boolean delete(long value) {
 		int j = find(value);
-		if (j < 0) // canÕt find it
+		if (j < 0) // can't find it
 			return false;
 		else // found it
 		{

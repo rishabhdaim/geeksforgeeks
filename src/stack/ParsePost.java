@@ -15,7 +15,7 @@ public class ParsePost {
 	public ParsePost(String input) {
 		super();
 		this.input = input;
-		arrayStack = new ArrayStack<Integer>();
+		arrayStack = new ArrayStack<>();
 	}
 
 	private ArrayStack<Integer> arrayStack;
@@ -28,9 +28,9 @@ public class ParsePost {
 		for (j = 0; j < input.length(); j++) // for each char,
 		{
 			ch = input.charAt(j); // read from input
-			if (ch >= '0' && ch <= '9') // if itÕs a number
+			if (ch >= '0' && ch <= '9') // if it's a number
 				arrayStack.push(ch - '0'); // push it
-			else // itÕs an operator
+			else // it's an operator
 			{
 				num2 = arrayStack.pop(); // pop operands
 				num1 = arrayStack.pop();

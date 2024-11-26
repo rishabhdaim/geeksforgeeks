@@ -23,18 +23,18 @@ public class InToPost {
 			for (int j = 0; j < input.length(); j++) {
 				char ch = input.charAt(j);
 				switch (ch) {
-				case '+': // itÕs + or -
+				case '+': // it's + or -
 				case '-':
 					gotOper(ch, 1); // go pop operators
 					break; // (precedence 1)
-				case '*': // itÕs * or /
+				case '*': // it's * or /
 				case '/':
 					gotOper(ch, 2); // go pop operators
 					break; // (precedence 2)
-				case '(': // itÕs a left paren
+				case '(': // it's a left paren
 					theStack.push(ch); // push it
 					break;
-				case ')': // itÕs a right paren
+				case ')': // it's a right paren
 					gotParen(ch); // go pop operators
 					break;
 				default: // must be an operand
@@ -51,11 +51,11 @@ public class InToPost {
 		while (!theStack.isEmpty()) {
 			char opTop = theStack.pop();
 			if (opTop == '(') {
-				// if itÕs a Ô(Ô
-				theStack.push(opTop); // restore Ô(Ô
+				// if it's a '('
+				theStack.push(opTop); // restore '('
 				break;
 			} else {
-				// itÕs an operator
+				// it's an operator
 				int prec2; // precedence of new op
 				if (opTop == '+' || opTop == '-') // find new op prec
 					prec2 = 1;
@@ -68,7 +68,7 @@ public class InToPost {
 				} else
 					// prec of new not less
 					output = output + opTop; // than prec of old
-			} // end else (itÕs an operator)
+			} // end else (itï¿½s an operator)
 		} // end while
 		theStack.push(opThis);
 	}
@@ -76,8 +76,8 @@ public class InToPost {
 	public void gotParen(char ch) { // got right paren from input
 		while (!theStack.isEmpty()) {
 			char chx = theStack.pop();
-			if (chx == '(') // if popped Ô(Ô
-				break; // weÕre done
+			if (chx == '(') // if popped '('
+				break; // we're done
 			else
 				// if popped operator
 				output = output + chx; // output it

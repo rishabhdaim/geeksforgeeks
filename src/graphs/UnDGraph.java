@@ -476,8 +476,8 @@ public class UnDGraph<E> {
 	 * 
 	 * @return
 	 */
-	// The input is represented by two things, first is ‘N’ which is number of
-	// cells in the given board, second is an array ‘move[0…N-1]’ of size N. An
+	// The input is represented by two things, first is 'N' which is number of
+	// cells in the given board, second is an array 'move[0..N-1]' of size N. An
 	// entry move[i] is -1 if there is no snake and no ladder from i, otherwise
 	// move[i] contains index of destination cell for the snake or the ladder at
 	// i.

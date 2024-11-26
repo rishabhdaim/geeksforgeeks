@@ -189,9 +189,9 @@ public class WGraphList {
 	 * 
 	 * The idea is to do Depth First Traversal of given directed graph. Start
 	 * the traversal from source. Keep storing the visited vertices in an array
-	 * say ‘path[]’. If we reach the destination vertex, print contents of
+	 * say `path[]`. If we reach the destination vertex, print contents of
 	 * path[]. The important thing is to mark current vertices in path[] as
-	 * visited also, so that the traversal doesn’t go in a cycle.
+	 * visited also, so that the traversal doesn't go in a cycle.
 	 * 
 	 * @param src
 	 *            source of path
@@ -303,7 +303,7 @@ public class WGraphList {
 	/**
 	 * To find path from src to dest using bi directional search.
 	 * 
-	 * Bidirectional search is a graph search algorithm which find smallest path form source to goal vertex. It runs two simultaneous search – 
+	 * Bidirectional search is a graph search algorithm which find smallest path form source to goal vertex. It runs two simultaneous search :
 	 * 1) Forward search form source/initial vertex toward goal vertex
 	 * 2) Backward search form goal/target vertex toward source vertex
 	 * 
@@ -546,7 +546,7 @@ public class WGraphList {
 	 * A union-find algorithm is an algorithm that performs two useful operations on such a data structure:
 	 * Find: Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
 	 * Union: Join two subsets into a single subset.
-	 * Union-Find Algorithm can be used to check whether an undirected graph contains cycle or not. This method assumes that graph doesn’t contain any self-loops.
+	 * Union-Find Algorithm can be used to check whether an undirected graph contains cycle or not. This method assumes that graph doesn't contain any self-loops.
 	 * We can keeps track of the subsets in a 1D array, lets call it parent[]
 	 * 
 	 * @return true if graph has cycle else false
@@ -617,7 +617,7 @@ public class WGraphList {
 	// to flatten the tree when find() is called. When find() is called for an
 	// element x, root of the tree is returned. The find() operation traverses
 	// up from x to find root. The idea of path compression is to make the found
-	// root as parent of x so that we don’t have to traverse all intermediate
+	// root as parent of x so that we don't have to traverse all intermediate
 	// nodes again. If x is root of a subtree, then path (to root) from all
 	// nodes under x also compresses.
 	public boolean isCyclicUnionFindRank() {
@@ -679,9 +679,9 @@ public class WGraphList {
 	/**
 	 * To check cycle in undirected graph.
 	 * 
-	 * We do a DFS traversal of the given graph. For every visited vertex ‘v’,
-	 * if there is an adjacent ‘u’ such that u is already visited and u is not
-	 * parent of v, then there is a cycle in graph. If we don’t find such an
+	 * We do a DFS traversal of the given graph. For every visited vertex 'v',
+	 * if there is an adjacent 'u' such that u is already visited and u is not
+	 * parent of v, then there is a cycle in graph. If we don't find such an
 	 * adjacent for any vertex, we say that there is no cycle. The assumption of
 	 * this approach is that there are no parallel edges between any two
 	 * vertices.
@@ -876,7 +876,7 @@ public class WGraphList {
 		
 	}
 	
-	// In Prim’s algorithm, two sets are maintained, one set contains list of
+	// In Prim's algorithm, two sets are maintained, one set contains list of
 	// vertices already included in MST, other set contains vertices not yet
 	// included. With adjacency list representation, all vertices of a graph can
 	// be traversed in O(V+E) time using BFS. The idea is to traverse all

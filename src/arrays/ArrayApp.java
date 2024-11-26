@@ -42,7 +42,7 @@ public class ArrayApp {
 			if (arr[j] == searchKey) // found item?
 				break; // yes, exit before endj
 		if (j == nElems) // at the end?
-			System.out.println("Can’t find " + searchKey); // yes
+			System.out.println("Can't find " + searchKey); // yes
 		else
 			System.out.println("Found " + searchKey); // no
 		// --------------------------------------------------------------
