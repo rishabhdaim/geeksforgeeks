@@ -42,7 +42,9 @@ public class EnvParser {
                     System.out.println("Skipping invalid env: " + env);
                     continue;
                 }
-                EnvDetail envDetail = new EnvDetail(env.get(0), env.get(1), env.get(2), env.get(3), env.get(4), env.get(5), env.get(6), env.get(7), env.get(8), env.get(9), env.get(10), env.get(11));
+                EnvDetail envDetail = new EnvDetail(env.get(0), env.get(1), env.get(2), env.get(3), env.get(4),
+                        env.get(5), env.get(6), env.get(7), env.get(8), env.get(9), env.get(10), env.get(11));
+
                 final String endId = envDetail.envId();
                 if (Strings.isNullOrEmpty(endId)) {
                     System.out.println("Skipping invalid env id: " + endId);
@@ -59,8 +61,7 @@ public class EnvParser {
                     System.out.println("Skipping invalid env type: " + type);
                     continue;
                 }
-                envDetailMap.putIfAbsent(programId, ArrayListMultimap.create());
-                envDetailMap.get(programId).put(type, envDetail);
+                envDetailMap.computeIfAbsent(programId, k -> ArrayListMultimap.create()).put(type, envDetail);
             }
         }
 
