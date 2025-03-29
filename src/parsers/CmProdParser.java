@@ -21,7 +21,8 @@ public class CmProdParser {
         final String fileName = "output.yml";
 
         final List<String> lines = Stream.of(
-                        Files.readAllLines(Path.of("CM_PROD_GRP_30.txt")).stream()
+                        Files.readAllLines(Path.of("CM_PROD_GRP_30.txt")).stream(),
+                        Files.readAllLines(Path.of("CM_PROD_GRP_30_2.txt")).stream()
                 ).flatMap(s -> s)
                 .toList();
 

@@ -70,6 +70,7 @@ public class EnvParser {
                 try {
                     fileWriter.write("PROGRAM ID : " + key);
                     fileWriter.write("\n");
+                    fileWriter.write("\n");
                     value.entries().stream().filter(e -> ENUM_SET.contains(EnvType.fromString(e.getKey()))).forEach(e -> {
                         try {
                             fileWriter.write(e.getValue().toString());
@@ -78,6 +79,7 @@ public class EnvParser {
                             throw new RuntimeException(ex);
                         }
                     });
+                    fileWriter.write("\n");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
