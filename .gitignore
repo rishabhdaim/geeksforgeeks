@@ -9,3 +9,11 @@ CM_PROD_GRP*
 output.yml
 env_output.txt
 env.txt
+all_envs.txt
+programId.txt
+storageSize.json
+disable_env_output.txt
+enable_env_output.txt
+size.json
+nodesCount.json
+assets-customers.csv

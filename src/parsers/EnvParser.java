@@ -5,6 +5,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.UnmodifiableIterator;
+import parsers.schema.EnvDetail;
+import parsers.schema.EnvType;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,15 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static parsers.EnvType.DEV;
-import static parsers.EnvType.PROD;
-import static parsers.EnvType.STAGE;
+import static parsers.schema.EnvType.DEV;
+import static parsers.schema.EnvType.PROD;
+import static parsers.schema.EnvType.STAGE;
 
 public class EnvParser {
     private static final Pattern envPattern = Pattern.compile("cm-p(\\d+)-e(\\d+)");
@@ -30,7 +33,7 @@ public class EnvParser {
 
         final String fileName = "env_output.txt";
 
-        final Map<String, Multimap<String, EnvDetail>> envDetailMap = HashMap.newHashMap(16);
+        final Map<String, Multimap<String, EnvDetail>> programIdEnvDetailMap = LinkedHashMap.newLinkedHashMap(16);
 
         try (final Stream<String> lines = Files.lines(Path.of("env.txt"))) {
 
@@ -43,7 +46,7 @@ public class EnvParser {
                     continue;
                 }
                 EnvDetail envDetail = new EnvDetail(env.get(0), env.get(1), env.get(2), env.get(3), env.get(4),
-                        env.get(5), env.get(6), env.get(7), env.get(8), env.get(9), env.get(10), env.get(11));
+                        env.get(8), env.get(9), env.get(10), null);
 
                 final String endId = envDetail.envId();
                 if (Strings.isNullOrEmpty(endId)) {
@@ -61,12 +64,12 @@ public class EnvParser {
                     System.out.println("Skipping invalid env type: " + type);
                     continue;
                 }
-                envDetailMap.computeIfAbsent(programId, k -> ArrayListMultimap.create()).put(type, envDetail);
+                programIdEnvDetailMap.computeIfAbsent(programId, k -> ArrayListMultimap.create()).put(type, envDetail);
             }
         }
 
         try(FileWriter fileWriter = new FileWriter(fileName)) {
-            envDetailMap.forEach((key, value) -> {
+            programIdEnvDetailMap.forEach((key, value) -> {
                 try {
                     fileWriter.write("PROGRAM ID : " + key);
                     fileWriter.write("\n");

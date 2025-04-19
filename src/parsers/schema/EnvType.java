@@ -1,4 +1,4 @@
-package parsers;
+package parsers.schema;
 
 import javax.annotation.Nonnull;
 
