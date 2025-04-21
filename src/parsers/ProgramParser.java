@@ -50,7 +50,7 @@ public class ProgramParser {
                 Matcher matcher = envPattern.matcher(envDetail.envId());
                 matcher.matches(); // safe to execute
                 return matcher.group(1);
-            }));
+            }, LinkedHashMap::new, Collectors.toList()));
         }
 
         try(final Stream<String> lines = Files.lines(Path.of("programId.txt"))) {
@@ -92,7 +92,7 @@ public class ProgramParser {
             Matcher matcher = envPattern.matcher(envDetail.envId());
             matcher.matches(); // safe to execute
             return matcher.group(1);
-        }));
+        }, LinkedHashMap::new, Collectors.toList()));
 //        System.out.println(exitingBigEnvs);
         final Map<String, Set<EnvDetail>> bigEnvs = LinkedHashMap.newLinkedHashMap(100);
         exitingBigEnvs.forEach((k, v) -> bigEnvs.computeIfAbsent(k, k1 -> new LinkedHashSet<>()).addAll(v));

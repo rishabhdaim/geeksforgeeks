@@ -17,3 +17,4 @@ enable_env_output.txt
 size.json
 nodesCount.json
 assets-customers.csv
+disable_output.yml

@@ -18,12 +18,21 @@ import java.util.stream.Collectors;
 public class CmProdParser {
     public static void main(String[] args) throws IOException {
 
+        final String enableFileName = "output.yml";
+        final List<String> enableLines = ReadUtils.readEnvFiles("enable_env_output.txt");
+
+        writeEnvs(enableLines, enableFileName);
+
+        final String disableFileName = "disable_output.yml";
+        final List<String> disbaleLines = ReadUtils.readEnvFiles("disable_env_output.txt");
+        writeEnvs(disbaleLines, disableFileName);
+
+    }
+
+    private static void writeEnvs(final List<String> lines, final String fileName) throws IOException {
         final List<ClusterNamespace> clusterNamespaces = new ArrayList<>();
-        final String fileName = "output.yml";
 
-        final List<String> lines = ReadUtils.readEnvFiles("enable_env_output.txt");
-
-        Map<String, List<String>> listMap = new Rules(
+        final Map<String, List<String>> listMap = new Rules(
                 lines.stream()
                         .filter(l -> l.startsWith("ethos"))
                         .map(env -> env.split(" "))

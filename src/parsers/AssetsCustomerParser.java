@@ -35,7 +35,7 @@ public class AssetsCustomerParser {
             throw new RuntimeException(e);
         }
         System.out.println(assetsEnvs.size());
-        System.out.println(assetsEnvs);
+//        System.out.println(assetsEnvs);
         Set<String> assetEnvsSet = assetsEnvs.stream().map(AssetsEnv::aemService).collect(Collectors.toSet());
 
         Set<String> aemService = ReadUtils.getAemServiceSet(
@@ -45,7 +45,8 @@ public class AssetsCustomerParser {
                         "CM_PROD_GRP_2_DEV.txt",
                         "CM_PROD_GRP_2_PROD.txt",
                         "CM_PROD_GRP_2_STAGE.txt",
-                        "CM_PROD_GRP_30.txt");
+                        "CM_PROD_GRP_30.txt",
+                        "CM_PROD_GRP_31_1.txt");
 
         System.out.println(aemService.size());
 
