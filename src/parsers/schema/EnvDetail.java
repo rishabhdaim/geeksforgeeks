@@ -3,11 +3,11 @@ package parsers.schema;
 import java.util.Objects;
 
 public record EnvDetail(String id, String name, String type, String release, String envId,
-                        String date, String cluster, String namespace,
-                        String imsOrgId) {
+                        String cluster, String namespace
+) {
 
-    public EnvDetail(String type, String envId, String cluster, String namespace, String imsOrgId) {
-        this(null, null, type, null, envId, null, cluster, namespace, imsOrgId);
+    public EnvDetail(String type, String envId, String cluster, String namespace) {
+        this(null, null, type, null, envId, cluster, namespace);
     }
 
 

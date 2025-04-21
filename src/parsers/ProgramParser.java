@@ -45,7 +45,7 @@ public class ProgramParser {
 
             programIdEnvDetailMap = lines.map(l -> {
                 String[] s = l.split(" ");
-                return new EnvDetail(s[4], s[3], s[1], s[2], s[0]);
+                return new EnvDetail(s[4], s[3], s[1], s[2]);
             }).filter(envDetail -> envPattern.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
                 Matcher matcher = envPattern.matcher(envDetail.envId());
                 matcher.matches(); // safe to execute
@@ -87,7 +87,7 @@ public class ProgramParser {
         List<String> lines = ReadUtils.readEnvFiles("disable_env_output.txt").stream().filter(l -> l.startsWith("ethos")).collect(Collectors.toList());
         Map<String, List<EnvDetail>> exitingBigEnvs = lines.stream().map(l -> {
             String[] s = l.split(" ");
-            return new EnvDetail(s[3], s[2], s[0], s[1], null);
+            return new EnvDetail(s[3], s[2], s[0], s[1]);
         }).filter(envDetail -> envPattern.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
             Matcher matcher = envPattern.matcher(envDetail.envId());
             matcher.matches(); // safe to execute

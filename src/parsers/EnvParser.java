@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class EnvParser {
                     continue;
                 }
                 EnvDetail envDetail = new EnvDetail(env.get(0), env.get(1), env.get(2), env.get(3), env.get(4),
-                        env.get(8), env.get(9), env.get(10), null);
+                        env.get(9), env.get(10));
 
                 final String endId = envDetail.envId();
                 if (Strings.isNullOrEmpty(endId)) {
