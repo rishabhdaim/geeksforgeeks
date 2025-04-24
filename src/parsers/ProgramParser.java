@@ -1,9 +1,11 @@
 package parsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.collections4.SetUtils;
 import parsers.schema.EnvDetail;
 import parsers.schema.EnvType;
+import parsers.schema.Result;
 import parsers.schema.Size;
 
 import java.io.FileWriter;
@@ -17,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -64,11 +67,11 @@ public class ProgramParser {
             // Process the results
             final Map<String, Map<String, Double>> collect = size.data().result().stream()
                     .collect(Collectors.teeing(
-                            Collectors.filtering(r -> Double.compare(Double.parseDouble(r.value()[1].toString()) / (1024 * 1024 * 1024), 70.00d) < 0, Collectors.toMap(
+                            Collectors.filtering(lowerThan70, Collectors.toMap(
                                     result -> result.metric().aemService(),
                                     result -> Double.parseDouble(result.value()[1].toString())
                             )),
-                            Collectors.filtering(r -> Double.compare(Double.parseDouble(r.value()[1].toString()) / (1024 * 1024 * 1024), 70.00d) > 0, Collectors.toMap(
+                            Collectors.filtering(greaterThan70, Collectors.toMap(
                                     result -> result.metric().aemService(),
                                     result -> Double.parseDouble(result.value()[1].toString())
                             )),
@@ -84,8 +87,9 @@ public class ProgramParser {
         }
 
         System.out.println("Missing Program Data : " + SetUtils.difference(programIdSet, programIdEnvDetailMap.keySet()));
-        List<String> lines = ReadUtils.readEnvFiles("disable_env_output.txt").stream().filter(l -> l.startsWith("ethos")).collect(Collectors.toList());
-        Map<String, List<EnvDetail>> exitingBigEnvs = lines.stream().map(l -> {
+
+        final List<String> lines = ReadUtils.readEnvFiles("disable_env_output.txt").stream().filter(l -> l.startsWith("ethos")).toList();
+        final Map<String, List<EnvDetail>> exitingBigEnvs = lines.stream().map(l -> {
             String[] s = l.split(" ");
             return new EnvDetail(s[3], s[2], s[0], s[1]);
         }).filter(envDetail -> envPattern.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
@@ -125,11 +129,24 @@ public class ProgramParser {
             System.out.println("Big Envs: " + bigEnvs.size());
             System.out.println("Small Envs: " + smallEnvs.size());
             writeEnvs(enableEnvWriter, smallEnvs, sizeByServiceSmall);
-            writeEnvs(disableEnvWriter, bigEnvs, sizeByServiceBig);
+            writeEnvs(disableEnvWriter, bigEnvs, new ImmutableMap.Builder<String, Double>()
+                    .putAll(sizeByServiceSmall)
+                    .putAll(sizeByServiceBig)
+                    .build());
         }
     }
 
-    private static void writeEnvs(final FileWriter fileWriter, final Map<String, Set<EnvDetail>> envDetailMap, Map<String, Double> sizeByServiceSmall) throws IOException {
+    // helper methods
+
+    private static final Predicate<Result> lowerThan70 = r -> compareWith70(r) < 0;
+
+    private static final Predicate<Result> greaterThan70 = r -> compareWith70(r) > 0;
+
+    private static int compareWith70(Result r) {
+        return Double.compare(Double.parseDouble(r.value()[1].toString()) / (1024 * 1024 * 1024), 70.00d);
+    }
+
+    private static void writeEnvs(final FileWriter fileWriter, final Map<String, Set<EnvDetail>> envDetailMap, Map<String, Double> sizeByService) throws IOException {
 
         fileWriter.write("\n");
         envDetailMap.forEach((key, value) -> {
@@ -139,7 +156,7 @@ public class ProgramParser {
                 fileWriter.write("\n");
                 value.forEach(e -> {
                     try {
-                        fileWriter.write(e.toString() + " " + Math.ceil((sizeByServiceSmall.get(e.envId()) / (1024 * 1024 * 1024) * 100)) / 100);
+                        fileWriter.write(e.toString() + " " + Math.ceil((sizeByService.get(e.envId()) / (1024 * 1024 * 1024) * 100)) / 100);
                         fileWriter.write("\n");
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);

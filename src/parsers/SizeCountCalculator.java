@@ -25,6 +25,11 @@ public class SizeCountCalculator {
                 "CM_PROD_GRP_2_STAGE.txt",
                 "CM_PROD_GRP_30.txt");
 
+        Set<String> bigEnvs = ReadUtils.getAemServiceSet(
+                "disable_env_output.txt");
+
+        aemService.removeAll(bigEnvs);
+
         System.out.println(aemService.size());
 
         try (InputStream sizeStream = Files.newInputStream(Path.of("size.json")); InputStream countStream = Files.newInputStream(Path.of("nodesCount.json"))) {
@@ -38,8 +43,8 @@ public class SizeCountCalculator {
                                     result -> result.metric().aemService(),
                                     result -> Math.ceil((Double.parseDouble(result.value()[1].toString())/(1024 * 1024 * 1024)) * 100)/100));
             // Use the data
-            System.out.println("Storage Size: " + collectSize.get("cm-p18757-e48049"));
-            System.out.println("Total Storage Size: " + collectSize.entrySet().stream()
+            System.out.println("Size: " + collectSize.get("cm-p49652-e267736"));
+            System.out.println("Total Size: " + collectSize.entrySet().stream()
                     .filter(entry -> aemService.contains(entry.getKey()))
                     .mapToDouble(Map.Entry::getValue)
                     .sum());
@@ -49,7 +54,7 @@ public class SizeCountCalculator {
                             result -> result.metric().aemService(),
                             result -> Math.round(Double.parseDouble(result.value()[1].toString()))));
             // Use the data
-            System.out.println("Count: " + countSize.get("cm-p18757-e48049"));
+            System.out.println("Count: " + countSize.get("cm-p49652-e267736"));
             System.out.println("Total Count: " + countSize.entrySet().stream()
                     .filter(entry -> aemService.contains(entry.getKey()))
                     .mapToLong(Map.Entry::getValue)
