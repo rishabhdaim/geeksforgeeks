@@ -12,21 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static parsers.schema.EnvType.DEV;
-import static parsers.schema.EnvType.PROD;
-import static parsers.schema.EnvType.STAGE;
-
 public class EnvParser {
-    private static final Pattern envPattern = Pattern.compile("cm-p(\\d+)-e(\\d+)");
-    private static final EnumSet<EnvType> ENUM_SET = EnumSet.of(PROD, DEV, STAGE);
 
     public static void main(String[] args) throws IOException {
 
@@ -52,7 +44,7 @@ public class EnvParser {
                     System.out.println("Skipping invalid env id: " + endId);
                     continue;
                 }
-                Matcher matcher = envPattern.matcher(endId);
+                Matcher matcher = ReadUtils.ENV_PATTERN.matcher(endId);
                 if (!matcher.matches()) {
                     System.out.println("Skipping invalid env id: " + endId);
                     continue;
@@ -73,7 +65,7 @@ public class EnvParser {
                     fileWriter.write("PROGRAM ID : " + key);
                     fileWriter.write("\n");
                     fileWriter.write("\n");
-                    value.entries().stream().filter(e -> ENUM_SET.contains(EnvType.fromString(e.getKey()))).forEach(e -> {
+                    value.entries().stream().filter(e -> ReadUtils.ENUM_SET.contains(EnvType.fromString(e.getKey()))).forEach(e -> {
                         try {
                             fileWriter.write(e.getValue().toString());
                             fileWriter.write("\n");

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,18 +20,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static parsers.schema.EnvType.DEV;
-import static parsers.schema.EnvType.PROD;
-import static parsers.schema.EnvType.STAGE;
-
 public class ProgramParser {
-
-    private static final Pattern envPattern = Pattern.compile("cm-p(\\d+)-e(\\d+)");
-    private static final EnumSet<EnvType> ENUM_SET = EnumSet.of(PROD, DEV, STAGE);
 
     public static void main(String[] args) throws IOException {
         final String enableEnvs = "enable_env_output.txt";
@@ -49,8 +40,8 @@ public class ProgramParser {
             programIdEnvDetailMap = lines.map(l -> {
                 String[] s = l.split(" ");
                 return new EnvDetail(s[4], s[3], s[1], s[2]);
-            }).filter(envDetail -> envPattern.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
-                Matcher matcher = envPattern.matcher(envDetail.envId());
+            }).filter(envDetail -> ReadUtils.ENV_PATTERN.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
+                Matcher matcher = ReadUtils.ENV_PATTERN.matcher(envDetail.envId());
                 matcher.matches(); // safe to execute
                 return matcher.group(1);
             }, LinkedHashMap::new, Collectors.toList()));
@@ -92,8 +83,8 @@ public class ProgramParser {
         final Map<String, List<EnvDetail>> exitingBigEnvs = lines.stream().map(l -> {
             String[] s = l.split(" ");
             return new EnvDetail(s[3], s[2], s[0], s[1]);
-        }).filter(envDetail -> envPattern.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
-            Matcher matcher = envPattern.matcher(envDetail.envId());
+        }).filter(envDetail -> ReadUtils.ENV_PATTERN.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
+            Matcher matcher = ReadUtils.ENV_PATTERN.matcher(envDetail.envId());
             matcher.matches(); // safe to execute
             return matcher.group(1);
         }, LinkedHashMap::new, Collectors.toList()));
@@ -113,7 +104,7 @@ public class ProgramParser {
                 // Single traversal of environments
                 for (EnvDetail env : value) {
                     EnvType envType = EnvType.fromString(env.type());
-                    if (!ENUM_SET.contains(envType)) {
+                    if (!ReadUtils.ENUM_SET.contains(envType)) {
                         continue;
                     }
 

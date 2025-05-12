@@ -1,18 +1,29 @@
 package parsers;
 
+import parsers.schema.EnvType;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static parsers.schema.EnvType.DEV;
+import static parsers.schema.EnvType.PROD;
+import static parsers.schema.EnvType.STAGE;
 
 public class ReadUtils {
 
     private ReadUtils() {
     }
+
+    public static final Pattern ENV_PATTERN = Pattern.compile("cm-p(\\d+)-e(\\d+)");
+    public static final EnumSet<EnvType> ENUM_SET = EnumSet.of(PROD, DEV, STAGE);
 
     public static Set<String> getAemServiceSet(String... fileNames) {
 

@@ -18,3 +18,6 @@ size.json
 nodesCount.json
 assets-customers.csv
 disable_output.yml
+cm_stage.csv
+stage_env_output.txt
+tmp_pid.txt
