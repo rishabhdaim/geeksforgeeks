@@ -36,13 +36,16 @@ log_console() {
 # Function to process a command
 process_command() {
     local cmd="$1"
+    local retry_count=0
+    local max_retries=2
+
     # Skip empty commands
     [ -z "$cmd" ] && return
 
     log_console "Processing: $cmd"
 
-    # Execute command and check if it was successful
-    while true; do
+    # Execute command and retry up to max_retries times
+    while [ $retry_count -le $max_retries ]; do
         # Capture command output
         output=$(sky use "$cmd" 2>&1)
         exit_status=$?
@@ -56,10 +59,17 @@ process_command() {
 
         if [ $exit_status -eq 0 ]; then
             log_console "Successfully executed 'sky use' for: $cmd"
-            break
+            return 0
         else
-            log_console "Command failed with exit code $exit_status, retrying in 3 seconds..."
-            sleep 3
+            retry_count=$((retry_count + 1))
+            if [ $retry_count -le $max_retries ]; then
+                sleep_time=$retry_count  # Sleep for increasing seconds (1, 2, 3...)
+                log_console "Command failed with exit code $exit_status, retry $retry_count of $max_retries in $sleep_time seconds..."
+                sleep $sleep_time
+            else
+                log_console "Command failed after $max_retries retries, giving up."
+                return $exit_status
+            fi
         fi
     done
 }
@@ -72,8 +82,13 @@ if [ ! -t 0 ]; then
 
     # Read input line by line
     while IFS= read -r line; do
-        # Split line by spaces and process each part
-        for cmd in $line; do
+        # Split line by semicolons and process each part
+        IFS=';' read -ra commands <<< "$line"
+        for cmd in "${commands[@]}"; do
+            # Trim leading/trailing whitespace from the command
+            cmd=$(echo "$cmd" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            # Skip empty commands after trimming
+            [ -z "$cmd" ] && continue
             process_command "$cmd"
         done
     done
@@ -96,9 +111,18 @@ else
 
     # Process file line by line
     while IFS= read -r line; do
-        # Skip empty lines
-        [ -z "$line" ] && continue
-        process_command "$line"
+        # Skip empty lines and lines starting with "PROGRAM"
+        [ -z "$line" ] || [[ "$line" == PROGRAM* ]] && continue
+
+        # Check if line starts with "ethos"
+        if [[ "$line" == ethos* ]]; then
+            # Split the line by whitespace and take only the first 3 entries
+            read -r first second third rest <<< "$line"
+            process_command "$first $second $third"
+        else
+            # Process the entire line as before
+            process_command "$line"
+        fi
     done < "$INPUT_FILE"
 fi
 

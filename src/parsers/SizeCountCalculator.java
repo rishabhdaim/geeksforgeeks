@@ -23,7 +23,11 @@ public class SizeCountCalculator {
                 "CM_PROD_GRP_2_DEV.txt",
                 "CM_PROD_GRP_2_PROD.txt",
                 "CM_PROD_GRP_2_STAGE.txt",
-                "CM_PROD_GRP_30.txt");
+                "CM_PROD_GRP_30.txt",
+                "CM_PROD_GRP_31_1.txt",
+                "CM_PROD_GRP_31_2.txt",
+                "CM_PROD_GRP_32_1.txt",
+                "CM_PROD_GRP_32_2.txt");
 
         Set<String> bigEnvs = ReadUtils.getAemServiceSet(
                 "disable_env_output.txt");

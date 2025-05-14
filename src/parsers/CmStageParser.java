@@ -47,12 +47,15 @@ public class CmStageParser {
             throw new RuntimeException(e);
         }
 
-        programIdEnvDetailMap = envDetails.stream().filter(envDetail -> ReadUtils.ENV_PATTERN.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
-            Matcher matcher = ReadUtils.ENV_PATTERN.matcher(envDetail.envId());
-            matcher.matches(); // safe to execute
-            return matcher.group(1);
+        programIdEnvDetailMap = envDetails.stream().collect(Collectors.groupingBy(envDetail -> {
+            final Matcher matcher = ReadUtils.ENV_PATTERN.matcher(envDetail.envId());
+            if (matcher.matches()) {
+                // safe to execute
+                return matcher.group(1);
+            } else {
+                return envDetail.envId(); // return complete envId, must be non-CM env
+            }
         }, LinkedHashMap::new, Collectors.toList()));
-
         System.out.println(envDetails.size());
         System.out.println(programIdEnvDetailMap);
 
