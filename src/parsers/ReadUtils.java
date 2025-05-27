@@ -23,6 +23,7 @@ public class ReadUtils {
     }
 
     public static final Pattern ENV_PATTERN = Pattern.compile("cm-p(\\d+)-e(\\d+)");
+    public static final Pattern PROGRAM_PATTERN = Pattern.compile("\\d+");
     public static final EnumSet<EnvType> ENUM_SET = EnumSet.of(PROD, DEV, STAGE);
 
     public static Set<String> getAemServiceSet(String... fileNames) {
@@ -44,5 +45,18 @@ public class ReadUtils {
 
         // Read the files and collect the lines into a single list
         return Stream.of(collect).flatMap(s -> s).toList();
+    }
+
+    public static boolean isInteger(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Not an integer : " + str);
+            return false;
+        }
     }
 }

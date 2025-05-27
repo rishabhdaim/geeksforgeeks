@@ -24,8 +24,8 @@ public class CmProdParser {
         writeEnvs(enableLines, enableFileName);
 
         final String disableFileName = "disable_output.yml";
-        final List<String> disbaleLines = ReadUtils.readEnvFiles("disable_env_output.txt");
-        writeEnvs(disbaleLines, disableFileName);
+        final List<String> disableLines = ReadUtils.readEnvFiles("disable_env_output.txt");
+        writeEnvs(disableLines, disableFileName);
 
     }
 
