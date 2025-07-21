@@ -46,10 +46,17 @@ public class AssetsCustomerParser {
                         "CM_PROD_GRP_2_PROD.txt",
                         "CM_PROD_GRP_2_STAGE.txt",
                         "CM_PROD_GRP_30.txt",
+                        "CM_PROD_GRP_4.txt",
+                        "CM_PROD_GRP_8.txt",
+                        "CM_PROD_GRP_40.txt",
+                        "CM_PROD_GRP_5_1.txt",
+                        "CM_PROD_GRP_5_2.txt",
                         "CM_PROD_GRP_31_1.txt",
                         "CM_PROD_GRP_31_2.txt",
                         "CM_PROD_GRP_32_1.txt",
-                        "CM_PROD_GRP_32_2.txt");
+                        "CM_PROD_GRP_32_2.txt",
+                        "CM_PROD_GRP_33_1.txt",
+                        "CM_PROD_GRP_33_2.txt");
 
         System.out.println(aemService.size());
 

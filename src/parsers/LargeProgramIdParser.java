@@ -8,20 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ProgramIdParser {
+public class LargeProgramIdParser {
 
     public static void main(String[] args) throws IOException {
-
 
         Map<String, Double> sizeByServiceSmall = new LinkedHashMap<>();
         Map<String, Double> sizeByServiceBig = new LinkedHashMap<>();
 
         Map<String, List<EnvDetail>> programIdEnvDetailMap = ReadUtils.getProgramIdEnvDetailMap();
 
-        Set<String> programIdSet = ReadUtils.getProgramIdSet("programId.txt");
+        Set<String> programIdSet = ReadUtils.getProgramIdSet("largeProgramId.txt");
 
-        ReadUtils.filterBySize(sizeByServiceSmall, ReadUtils.lowerThan70, sizeByServiceBig, ReadUtils.greaterThan70);
-
+        ReadUtils.filterBySize(sizeByServiceSmall, ReadUtils.greaterThan70AndLowerThan200, sizeByServiceBig, ReadUtils.greaterThan200);
 //        System.out.println("Small Size: " + sizeByServiceSmall.size());
 //        System.out.println("Big Size: " + sizeByServiceBig.size());
 
