@@ -12,15 +12,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import static parsers.ReadUtils.getAllAemServiceSet;
-
 public class NonROProgramId {
     public static void main(String[] args) throws IOException {
 
         Map<String, Double> sizeByServiceSmall = new LinkedHashMap<>();
         Map<String, Double> sizeByServiceBig = new LinkedHashMap<>();
 
-        Set<String> allAemServiceSet = getAllAemServiceSet();
+        Set<String> allAemServiceSet = ReadUtils.getAllAemServiceSet("all_envs_1.txt");
 
         Set<String> roAemServiceSet = ReadUtils.getAemServiceSet(
                 "CM_PROD_GRP_1_DEV.txt",

@@ -20,7 +20,10 @@ public class WriteUtils {
     public static final String ENABLE_ENVS = "enable_env_output.txt";
     public static final String DISABLE_ENVS = "disable_env_output.txt";
 
-    public static void writeEnvsToFile(String enableEnvs, String disableEnvs, Map<String, List<EnvDetail>> programIdEnvDetailMap, Set<String> programIdSet, Map<String, Double> sizeByServiceSmall, Map<String, Set<EnvDetail>> smallEnvs, Map<String, Double> sizeByServiceBig, Map<String, Set<EnvDetail>> bigEnvs, Set<String> skipList) throws IOException {
+    public static void writeEnvsToFile(String enableEnvs, String disableEnvs, Map<String, List<EnvDetail>> programIdEnvDetailMap,
+                                       Set<String> programIdSet, Map<String, Double> sizeByServiceSmall, Map<String,
+                    Set<EnvDetail>> smallEnvs, Map<String, Double> sizeByServiceBig, Map<String,
+                    Set<EnvDetail>> bigEnvs, Set<String> skipList) throws IOException {
         try (FileWriter enableEnvWriter = new FileWriter(enableEnvs); FileWriter disableEnvWriter = new FileWriter(disableEnvs)) {
             programIdEnvDetailMap.forEach((key, value) -> {
                 if (!programIdSet.contains(key)) {
@@ -37,6 +40,9 @@ public class WriteUtils {
                         continue;
                     }
 
+                    if (skipList.contains(env.envId())) {
+                        continue;
+                    }
 
                     if (sizeByServiceSmall.containsKey(env.envId())) {
                         smallEnvs.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(env);

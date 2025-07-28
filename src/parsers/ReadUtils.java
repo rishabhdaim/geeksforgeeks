@@ -17,6 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,19 +44,40 @@ public class ReadUtils {
         return lines.stream().filter(s -> s.startsWith("ethos")).map(s -> s.split(" ")[2]).collect(Collectors.toSet());
     }
 
-    public static Set<String> getAllAemServiceSet() throws IOException {
+    public static Set<String> getAllAemServiceSet(String fileName) throws IOException {
 
         Set<String> allAemServiceSet;
 
-        try (final Stream<String> lines = Files.lines(Path.of("all_envs.txt"))) {
-
-            allAemServiceSet = lines.map(l -> {
-                String[] s = l.split(" ");
-                return new EnvDetail(s[4], s[3], s[1], s[2]);
-            }).map(EnvDetail::envId).filter(input -> ReadUtils.ENV_PATTERN.matcher(input).matches())
+        try (final Stream<String> lines = Files.lines(Path.of(fileName))) {
+            allAemServiceSet = getEnvDetailStream(lines).map(EnvDetail::envId).
+                    filter(input -> ENV_PATTERN.matcher(input).matches())
                     .collect(Collectors.toCollection(LinkedHashSet::new));
         }
         return allAemServiceSet;
+    }
+
+    public static Map<String, EnvDetail> getEnvDetailSet(String fileName) throws IOException {
+        try (final Stream<String> lines = Files.lines(Path.of(fileName))) {
+            return getEnvDetailStream(lines)
+                    .filter(input -> ENV_PATTERN.matcher(input.envId()).matches())
+                    .collect(Collectors.toMap(
+                            EnvDetail::envId,
+                            Function.identity(),
+                            ReadUtils::keepFirst,
+                            LinkedHashMap::new
+                    ));
+        }
+    }
+
+    private static Stream<EnvDetail> getEnvDetailStream(Stream<String> lines) {
+        return lines.map(l -> {
+            String[] s = l.split("\\s+");
+            if (s.length < 5) {
+                System.out.println(s.length);
+                throw new IllegalArgumentException("Invalid line format: " + Arrays.toString(s));
+            }
+            return new EnvDetail(s[4], s[3], s[1], s[2]);
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -74,10 +96,9 @@ public class ReadUtils {
 
     public static Map<String, List<EnvDetail>> getProgramIdEnvDetailMap() throws IOException {
         Map<String, List<EnvDetail>> programIdEnvDetailMap;
-        try (final Stream<String> lines = Files.lines(Path.of("all_envs.txt"))) {
-
+        try (final Stream<String> lines = Files.lines(Path.of("all_envs_1.txt"))) {
             programIdEnvDetailMap = lines.map(l -> {
-                String[] s = l.split(" ");
+                String[] s = l.split("\\s+");
                 return new EnvDetail(s[4], s[3], s[1], s[2]);
             }).filter(envDetail -> ReadUtils.ENV_PATTERN.matcher(envDetail.envId()).matches()).collect(Collectors.groupingBy(envDetail -> {
                 Matcher matcher = ReadUtils.ENV_PATTERN.matcher(envDetail.envId());
@@ -106,6 +127,30 @@ public class ReadUtils {
         } catch (NumberFormatException e) {
             System.err.println("Not an integer : " + str);
             return false;
+        }
+    }
+
+    public static long parseLong(String str) {
+        if (str == null || str.isEmpty()) {
+            return 0L;
+        }
+        try {
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            System.err.println("Not an Long : " + str);
+            return 0L;
+        }
+    }
+
+    public static double parseDouble(String str) {
+        if (str == null || str.isEmpty()) {
+            return 0.0d;
+        }
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            System.err.println("Not an Double : " + str);
+            return 0.0d;
         }
     }
 
@@ -168,5 +213,9 @@ public class ReadUtils {
 
     private static int compareWith70(Result r) {
         return Double.compare(Double.parseDouble(r.value()[1].toString()) / (1024 * 1024 * 1024), 70.00d);
+    }
+
+    private static EnvDetail keepFirst(EnvDetail e1, EnvDetail e2) {
+        return e1; // If there are duplicates, keep the first one
     }
 }

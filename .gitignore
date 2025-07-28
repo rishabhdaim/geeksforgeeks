@@ -9,7 +9,8 @@ CM_PROD_GRP*
 output.yml
 env_output.txt
 env.txt
-all_envs.txt
+all_envs_1.txt
+all_envs_2.txt
 programId.txt
 storageSize.json
 disable_env_output.txt
@@ -25,3 +26,8 @@ output.txt
 program.txt
 largeProgramId.txt
 backup_disable_env_output.txt
+CM_NON_RO.txt
+DSGC_Size.csv
+DSGC_Sweep.csv
+DSGC_Envs.txt
+DSGC_Envs.csv
