@@ -6,15 +6,18 @@ import java.util.Objects;
 
 // cluster,namespace,aem_service,Blobs,BlobsSize(GB),Candidates,CandidatesSize(GB),References,Duration(Hours)
 
-public record DsgcEnv(String cluster, String namespace, String aemService, long referencesTotal, long blobs,
-                      double blobSize, long candidates, double candidatesSize, long references, double duration) {
+// cluster,namespace,aem_service,blobs,blobs_size_gb,candidates,candidates_size_gb,references,duration_hours,mark_references,mark_size_gb
 
-    public DsgcEnv(DsgcSize dsgcSize, DsgcSweep dsgcSweep) {
+public record DsgcEnv(String cluster, String namespace, String aemService, long referencesTotal, long blobs,
+                      double blobSize, long candidates, double candidatesSize, long references, double duration,
+                      long markReferences, double markSize) {
+
+    public DsgcEnv(DsgcSize dsgcSize, DsgcSweep dsgcSweep, long markReferences, double markSize) {
         Preconditions.checkNotNull(dsgcSize);
         Preconditions.checkNotNull(dsgcSweep);
         Preconditions.checkArgument(Objects.equals(dsgcSize.aemService(), dsgcSweep.aemService()));
         this(dsgcSize.cluster(), dsgcSize.namespace(), dsgcSize.aemService(), dsgcSize.references(), dsgcSweep.blobs(), dsgcSweep.blobSize(),
-                dsgcSweep.candidates(), dsgcSweep.candidatesSize(), dsgcSweep.references(), dsgcSweep.durationHours());
+                dsgcSweep.candidates(), dsgcSweep.candidatesSize(), dsgcSweep.references(), dsgcSweep.durationHours(), markReferences, markSize);
     }
 
         @Override

@@ -30,4 +30,6 @@ CM_NON_RO.txt
 DSGC_Size.csv
 DSGC_Sweep.csv
 DSGC_Envs.txt
-DSGC_Envs.csv
+DSGC_*.csv
+raw_thanos
+lookup_table

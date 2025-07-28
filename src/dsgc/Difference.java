@@ -6,7 +6,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import dsgc.schema.DsgcEnv;
 import dsgc.schema.DsgcSize;
 import dsgc.schema.DsgcSweep;
-import org.apache.commons.collections4.SetUtils;
 import parsers.ReadUtils;
 import parsers.schema.EnvDetail;
 
@@ -25,13 +24,9 @@ public class Difference {
 
     public static void main(String[] args) throws IOException {
 
-        Map<String, EnvDetail> allAemServiceMap = ReadUtils.getEnvDetailSet("all_envs_1.txt");
+        final Map<String, EnvDetail> allAemServiceMap = ReadUtils.getEnvDetailSet("all_envs_1.txt");
 
-        System.out.println(allAemServiceMap.size());
-        Map<String, EnvDetail> allAemServiceMap2 = ReadUtils.getEnvDetailSet("all_envs_2.txt");
-        System.out.println(allAemServiceMap2.size());
-
-        System.out.println((long) SetUtils.union(allAemServiceMap.keySet(), allAemServiceMap2.keySet()).size());
+        final Map<String, EnvDetail> allAemServiceMap2 = ReadUtils.getEnvDetailSet("all_envs_2.txt");
 
         final Map<String, DsgcSize> dsgcSize = LinkedHashMap.newLinkedHashMap(12000);
         final Map<String, DsgcSweep> dsgcSweep = LinkedHashMap.newLinkedHashMap(12000);
@@ -90,7 +85,7 @@ public class Difference {
                 sweepMiss++;
                 continue;
             }
-            dsgcEnv.putIfAbsent(dsgcSizeEntry.getKey(), new DsgcEnv(dsgcSizeEntry.getValue(), dsgcSweep.get(dsgcSizeEntry.getKey())));
+            dsgcEnv.putIfAbsent(dsgcSizeEntry.getKey(), new DsgcEnv(dsgcSizeEntry.getValue(), dsgcSweep.get(dsgcSizeEntry.getKey()), 0L, 0.0d));
         }
 
         System.out.println("DSGC Env: " + dsgcEnv.size());
