@@ -4,9 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import dsgc.schema.DsgcEnv;
-import dsgc.schema.DsgcSize;
-import dsgc.schema.DsgcSweep;
-import org.apache.commons.collections4.SetUtils;
 import parsers.ReadUtils;
 import parsers.schema.EnvDetail;
 
