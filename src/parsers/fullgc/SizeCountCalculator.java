@@ -1,8 +1,9 @@
-package parsers;
+package parsers.fullgc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import parsers.schema.Count;
-import parsers.schema.Size;
+import parsers.ReadUtils;
+import parsers.fullgc.schema.Count;
+import parsers.fullgc.schema.Size;
 
 import java.io.IOException;
 import java.io.InputStream;

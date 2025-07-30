@@ -1,8 +1,9 @@
-package parsers;
+package parsers.fullgc;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
+import parsers.ReadUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,48 +1,28 @@
-package dsgc;
+package parsers.dsgc;
 
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
-import dsgc.schema.DsgcEnv;
+import parsers.dsgc.schema.DsgcEnv;
 import parsers.ReadUtils;
-import parsers.schema.EnvDetail;
+import parsers.fullgc.schema.EnvDetail;
+import parsers.fullgc.schema.EnvType;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class AddEnvType {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CsvValidationException {
 
         final Map<String, DsgcEnv> dsgcEnv = LinkedHashMap.newLinkedHashMap(12000);
 
-        try (CSVReader reader = new CSVReader(new FileReader("DSGC_Merged.csv"))) {
-            // Read header
-            String[] headers = reader.readNext();
-            System.out.println(Arrays.toString(headers));
+        final String fileName = "DSGC_Merged.csv";
 
-            String[] line;
-            while ((line = reader.readNext()) != null) {
-                // Process the data...
-                if (Objects.isNull(line[0]) || Objects.isNull(line[2])) {
-                    continue;
-                }
-                // cluster,namespace,aem_service,blobs,blobs_size_gb,candidates,candidates_size_gb,references,duration_hours,mark_references,mark_size_gb
-                dsgcEnv.putIfAbsent(line[2], new DsgcEnv(line[0], line[1], line[2], 0L, ReadUtils.parseLong(line[3]), ReadUtils.parseDouble(line[4]),
-                        ReadUtils.parseLong(line[5]), ReadUtils.parseDouble(line[6]), ReadUtils.parseLong(line[7]),
-                        ReadUtils.parseDouble(line[8]), ReadUtils.parseLong(line[9]),
-                        ReadUtils.parseDouble(line[10])));
-            }
-        } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException(e);
-        }
+        ReadUtils.readDsgcEnvs(dsgcEnv, fileName);
 
         System.out.println(dsgcEnv.size());
 
@@ -76,7 +56,7 @@ public class AddEnvType {
                         String.valueOf(env.duration()),
                         String.valueOf(env.markReferences()),
                         String.valueOf(env.markSize()),
-                        String.valueOf(envDetailMap.containsKey(env.aemService()) ? envDetailMap.get(env.aemService()).type() : ""),
+                        String.valueOf(envDetailMap.containsKey(env.aemService()) ? envDetailMap.get(env.aemService()).type() : EnvType.UNKNOWN),
                 })
                 .toList();
 

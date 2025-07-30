@@ -1,6 +1,8 @@
-package parsers;
+package parsers.fullgc;
 
-import parsers.schema.EnvDetail;
+import parsers.ReadUtils;
+import parsers.WriteUtils;
+import parsers.fullgc.schema.EnvDetail;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;

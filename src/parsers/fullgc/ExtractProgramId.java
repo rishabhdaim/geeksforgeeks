@@ -1,4 +1,6 @@
-package parsers;
+package parsers.fullgc;
+
+import parsers.ReadUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;

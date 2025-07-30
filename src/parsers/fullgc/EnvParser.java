@@ -1,12 +1,13 @@
-package parsers;
+package parsers.fullgc;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.UnmodifiableIterator;
-import parsers.schema.EnvDetail;
-import parsers.schema.EnvType;
+import parsers.ReadUtils;
+import parsers.fullgc.schema.EnvDetail;
+import parsers.fullgc.schema.EnvType;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,9 +1,9 @@
-package parsers.schema;
+package parsers.fullgc.schema;
 
 import javax.annotation.Nonnull;
 
 public enum EnvType {
-    PROD("prod"), STAGE("stage"), DEV("dev"), RDE("rde");
+    PROD("prod"), STAGE("stage"), DEV("dev"), RDE("rde"), UNKNOWN("unknown");
 
     private final String envType;
 

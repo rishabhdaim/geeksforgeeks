@@ -1,4 +1,4 @@
-package parsers.schema;
+package parsers.fullgc.schema;
 
 import java.util.List;
 

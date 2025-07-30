@@ -1,4 +1,4 @@
-package dsgc.schema;
+package parsers.dsgc.schema;
 
 import java.util.Objects;
 

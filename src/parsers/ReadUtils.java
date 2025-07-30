@@ -1,11 +1,15 @@
 package parsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import parsers.schema.EnvDetail;
-import parsers.schema.EnvType;
-import parsers.schema.Result;
-import parsers.schema.Size;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import parsers.dsgc.schema.DsgcEnv;
+import parsers.fullgc.schema.EnvDetail;
+import parsers.fullgc.schema.EnvType;
+import parsers.fullgc.schema.Result;
+import parsers.fullgc.schema.Size;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -16,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,9 +29,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static parsers.schema.EnvType.DEV;
-import static parsers.schema.EnvType.PROD;
-import static parsers.schema.EnvType.STAGE;
+import static parsers.fullgc.schema.EnvType.DEV;
+import static parsers.fullgc.schema.EnvType.PROD;
+import static parsers.fullgc.schema.EnvType.STAGE;
 
 public class ReadUtils {
 
@@ -195,6 +200,27 @@ public class ReadUtils {
         exitingBigEnvs.forEach((k, v) -> bigEnvs.computeIfAbsent(k, k1 -> new LinkedHashSet<>()).addAll(v));
 
 //        System.out.println(bigEnvs);
+    }
+
+    public static void readDsgcEnvs(final Map<String, DsgcEnv> dsgcEnv, final String fileName) throws IOException, CsvValidationException {
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            // Read header
+            String[] headers = reader.readNext();
+            System.out.println(Arrays.toString(headers));
+
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                // Process the data...
+                if (Objects.isNull(line[0]) || Objects.isNull(line[2])) {
+                    continue;
+                }
+                // cluster,namespace,aem_service,blobs,blobs_size_gb,candidates,candidates_size_gb,references,duration_hours,mark_references,mark_size_gb
+                dsgcEnv.putIfAbsent(line[2], new DsgcEnv(line[0], line[1], line[2], 0L, ReadUtils.parseLong(line[3]), ReadUtils.parseDouble(line[4]),
+                        ReadUtils.parseLong(line[5]), ReadUtils.parseDouble(line[6]), ReadUtils.parseLong(line[7]),
+                        ReadUtils.parseDouble(line[8]), ReadUtils.parseLong(line[9]),
+                        ReadUtils.parseDouble(line[10]), line.length == 12 ? EnvType.fromString(line[11]) : EnvType.UNKNOWN));
+            }
+        }
     }
 
     public static final Predicate<Result> greaterThan200 = r -> compareWith200(r) > 0;

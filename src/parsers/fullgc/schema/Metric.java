@@ -1,4 +1,4 @@
-package parsers.schema;
+package parsers.fullgc.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

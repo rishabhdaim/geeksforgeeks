@@ -1,9 +1,10 @@
-package parsers;
+package parsers.fullgc;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import parsers.schema.EnvDetail;
-import parsers.schema.EnvType;
+import parsers.ReadUtils;
+import parsers.fullgc.schema.EnvDetail;
+import parsers.fullgc.schema.EnvType;
 
 import java.io.FileReader;
 import java.io.FileWriter;

@@ -1,6 +1,7 @@
-package dsgc.schema;
+package parsers.dsgc.schema;
 
 import com.google.common.base.Preconditions;
+import parsers.fullgc.schema.EnvType;
 
 import java.util.Objects;
 
@@ -10,14 +11,15 @@ import java.util.Objects;
 
 public record DsgcEnv(String cluster, String namespace, String aemService, long referencesTotal, long blobs,
                       double blobSize, long candidates, double candidatesSize, long references, double duration,
-                      long markReferences, double markSize) {
+                      long markReferences, double markSize, EnvType envType) {
 
     public DsgcEnv(DsgcSize dsgcSize, DsgcSweep dsgcSweep, long markReferences, double markSize) {
         Preconditions.checkNotNull(dsgcSize);
         Preconditions.checkNotNull(dsgcSweep);
         Preconditions.checkArgument(Objects.equals(dsgcSize.aemService(), dsgcSweep.aemService()));
-        this(dsgcSize.cluster(), dsgcSize.namespace(), dsgcSize.aemService(), dsgcSize.references(), dsgcSweep.blobs(), dsgcSweep.blobSize(),
-                dsgcSweep.candidates(), dsgcSweep.candidatesSize(), dsgcSweep.references(), dsgcSweep.durationHours(), markReferences, markSize);
+        this(dsgcSize.cluster(), dsgcSize.namespace(), dsgcSize.aemService(), dsgcSize.references(), dsgcSweep.blobs(),
+                dsgcSweep.blobSize(), dsgcSweep.candidates(), dsgcSweep.candidatesSize(), dsgcSweep.references(),
+                dsgcSweep.durationHours(), markReferences, markSize, EnvType.UNKNOWN);
     }
 
         @Override

@@ -1,13 +1,13 @@
-package dsgc;
+package parsers.dsgc;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
-import dsgc.schema.DsgcEnv;
-import dsgc.schema.DsgcSize;
-import dsgc.schema.DsgcSweep;
+import parsers.dsgc.schema.DsgcEnv;
+import parsers.dsgc.schema.DsgcSize;
+import parsers.dsgc.schema.DsgcSweep;
 import parsers.ReadUtils;
-import parsers.schema.EnvDetail;
+import parsers.fullgc.schema.EnvDetail;
 
 import java.io.FileReader;
 import java.io.FileWriter;

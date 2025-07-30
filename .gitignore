@@ -33,3 +33,4 @@ DSGC_Envs.txt
 DSGC_*.csv
 raw_thanos
 lookup_table
+dsgc_rollout_envs.yml
