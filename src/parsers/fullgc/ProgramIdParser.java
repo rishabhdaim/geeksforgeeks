@@ -20,7 +20,7 @@ public class ProgramIdParser {
 
         Map<String, List<EnvDetail>> programIdEnvDetailMap = ReadUtils.getProgramIdEnvDetailMap();
 
-        Set<String> programIdSet = ReadUtils.getProgramIdSet("programId.txt");
+        Set<String> programIdSet = ReadUtils.getProgramIdSet("backup_disable_env_output.txt");
 
         ReadUtils.filterBySize(sizeByServiceSmall, ReadUtils.lowerThan70, sizeByServiceBig, ReadUtils.greaterThan70);
 

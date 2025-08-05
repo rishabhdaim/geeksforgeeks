@@ -135,6 +135,18 @@ public class ReadUtils {
         }
     }
 
+    public static int parseInt(String str) {
+        if (str == null || str.isEmpty()) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            System.err.println("Not an integer : " + str);
+            return 0;
+        }
+    }
+
     public static long parseLong(String str) {
         if (str == null || str.isEmpty()) {
             return 0L;
@@ -142,6 +154,11 @@ public class ReadUtils {
         try {
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
+            try {
+                return (long) Double.parseDouble(str);
+            }  catch (NumberFormatException e2) {
+                System.err.println("Not an number : " + str);
+            }
             System.err.println("Not an Long : " + str);
             return 0L;
         }
@@ -214,11 +231,12 @@ public class ReadUtils {
                 if (Objects.isNull(line[0]) || Objects.isNull(line[2])) {
                     continue;
                 }
-                // cluster,namespace,aem_service,blobs,blobs_size_gb,candidates,candidates_size_gb,references,duration_hours,mark_references,mark_size_gb
+                // [cluster, namespace, aem_service, blobs, blobs_size_gb, candidates, candidates_size_gb, references, duration_hours, mark_references, mark_size_gb, env_type, namespace_max_candidates, batch]
+                // ethos13-prod-can2,ns-team-aem-cm-prd-n150266,cm-p157981-e1674101,16,0.0,0.0,0.0,16.0,0.0,16,0.0009399335831403,dev,0.0,1
                 dsgcEnv.putIfAbsent(line[2], new DsgcEnv(line[0], line[1], line[2], 0L, ReadUtils.parseLong(line[3]), ReadUtils.parseDouble(line[4]),
                         ReadUtils.parseLong(line[5]), ReadUtils.parseDouble(line[6]), ReadUtils.parseLong(line[7]),
                         ReadUtils.parseDouble(line[8]), ReadUtils.parseLong(line[9]),
-                        ReadUtils.parseDouble(line[10]), line.length == 12 ? EnvType.fromString(line[11]) : EnvType.UNKNOWN));
+                        ReadUtils.parseDouble(line[10]), line.length >= 12 ? EnvType.fromString(line[11]) : EnvType.UNKNOWN, ReadUtils.parseLong(line[12]), ReadUtils.parseInt(line[13])));
             }
         }
     }

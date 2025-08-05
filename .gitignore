@@ -34,3 +34,4 @@ DSGC_*.csv
 raw_thanos
 lookup_table
 dsgc_rollout_envs.yml
+Rollout_Stage_*.csv

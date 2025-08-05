@@ -20,7 +20,7 @@ public class AddEnvType {
 
         final Map<String, DsgcEnv> dsgcEnv = LinkedHashMap.newLinkedHashMap(12000);
 
-        final String fileName = "DSGC_Merged.csv";
+        final String fileName = "dsgc_mark_prod_sweep_merged_3007_filtered.csv";
 
         ReadUtils.readDsgcEnvs(dsgcEnv, fileName);
 
@@ -33,7 +33,7 @@ public class AddEnvType {
         final Map<String, EnvDetail> envDetailMap = new LinkedHashMap<>(allAemServiceMap);
         allAemServiceMap2.forEach(envDetailMap::putIfAbsent);
 
-        writeDsgcEnvToCsv(dsgcEnv.values(), "DSGC_Merged_WithType.csv", envDetailMap);
+        writeDsgcEnvToCsv(dsgcEnv.values(), "dsgc_mark_prod_sweep_merged_3007_filtered.csv", envDetailMap);
     }
 
     public static void writeDsgcEnvToCsv(Collection<DsgcEnv> envs, String filePath, final Map<String, EnvDetail> envDetailMap) throws IOException {

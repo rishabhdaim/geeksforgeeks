@@ -85,7 +85,7 @@ public class Difference {
                 sweepMiss++;
                 continue;
             }
-            dsgcEnv.putIfAbsent(dsgcSizeEntry.getKey(), new DsgcEnv(dsgcSizeEntry.getValue(), dsgcSweep.get(dsgcSizeEntry.getKey()), 0L, 0.0d));
+            dsgcEnv.putIfAbsent(dsgcSizeEntry.getKey(), new DsgcEnv(dsgcSizeEntry.getValue(), dsgcSweep.get(dsgcSizeEntry.getKey()), 0L, 0.0d, 0L, 0));
         }
 
         System.out.println("DSGC Env: " + dsgcEnv.size());
