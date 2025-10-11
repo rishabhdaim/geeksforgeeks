@@ -35,3 +35,8 @@ raw_thanos
 lookup_table
 dsgc_rollout_envs.yml
 Rollout_Stage_*.csv
+CM_Large_Envs.txt
+Unique_Expressions_Count.csv
+compaction_sample.txt
+size_original.json
+storageSize_original.json

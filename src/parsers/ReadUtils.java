@@ -241,6 +241,23 @@ public class ReadUtils {
         }
     }
 
+    public static void readUniqueExp(Map<String, Integer> uniqueExpCount, final String fileName) throws IOException, CsvValidationException {
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            // Read header
+            String[] headers = reader.readNext();
+            System.out.println(Arrays.toString(headers));
+
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                // Process the data...
+                if (Objects.isNull(line[0]) || Objects.isNull(line[1])) {
+                    continue;
+                }
+                uniqueExpCount.putIfAbsent(line[0], ReadUtils.parseInt(line[1]));
+            }
+        }
+    }
+
     public static final Predicate<Result> greaterThan200 = r -> compareWith200(r) > 0;
 
     public static final Predicate<Result> greaterThan70AndLowerThan200 = r -> compareWith70(r) >= 0 && compareWith200(r) < 0;
