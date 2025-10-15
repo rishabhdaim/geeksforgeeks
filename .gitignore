@@ -40,3 +40,4 @@ Unique_Expressions_Count.csv
 compaction_sample.txt
 size_original.json
 storageSize_original.json
+storageSize_base.json

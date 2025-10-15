@@ -45,7 +45,7 @@ public class WriteUtils {
                 // Single traversal of environments
                 for (EnvDetail env : value) {
                     EnvType envType = EnvType.fromString(env.type());
-                    if (!ReadUtils.ENUM_SET.contains(envType)) {
+                    if (!ReadUtils.ENV_TYPE.contains(envType)) {
                         continue;
                     }
 

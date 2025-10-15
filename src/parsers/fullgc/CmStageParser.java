@@ -66,7 +66,7 @@ public class CmStageParser {
                     fileWriter.write("PROGRAM ID : " + key);
                     fileWriter.write("\n");
                     fileWriter.write("\n");
-                    value.stream().filter(e -> ReadUtils.ENUM_SET.contains(EnvType.fromString(e.type()))).forEach(e -> {
+                    value.stream().filter(e -> ReadUtils.ENV_TYPE.contains(EnvType.fromString(e.type()))).forEach(e -> {
                         try {
                             fileWriter.write(e.toString());
                             fileWriter.write("\n");

@@ -3,6 +3,7 @@ package parsers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import parsers.compaction.schema.Env;
 import parsers.dsgc.schema.DsgcEnv;
 import parsers.fullgc.schema.EnvDetail;
 import parsers.fullgc.schema.EnvType;
@@ -40,14 +41,30 @@ public class ReadUtils {
 
     public static final Pattern ENV_PATTERN = Pattern.compile("cm-p(\\d+)-e(\\d+)");
     public static final Pattern PROGRAM_PATTERN = Pattern.compile("\\d+");
-    public static final EnumSet<EnvType> ENUM_SET = EnumSet.of(PROD, DEV, STAGE);
+    public static final Set<EnvType> ENV_TYPE = EnumSet.of(PROD, DEV, STAGE);
+    public static final String ETHOS = "ethos";
 
     public static Set<String> getAemServiceSet(String... fileNames) {
 
         final List<String> lines = readEnvFiles(fileNames);
 
-        return lines.stream().filter(s -> s.startsWith("ethos")).map(s -> s.split(" ")[2]).collect(Collectors.toSet());
+        return lines.stream().filter(s -> s.startsWith(ETHOS)).map(s -> s.split(" ")[2]).collect(Collectors.toSet());
     }
+
+    public static Map<String, Env> getEnvMap(String... fileName) {
+        return readEnvFiles(fileName).stream()
+                .filter(s -> s.startsWith(ETHOS))
+                .map(s -> s.split(" "))
+                .filter(parts -> parts.length >= 3 && ENV_PATTERN.matcher(parts[2]).matches())
+                .map(parts -> new Env(parts[0], parts[1], parts[2]))
+                .collect(Collectors.toMap(
+                        Env::aemService,
+                        Function.identity(),
+                        ReadUtils::keepFirst,
+                        LinkedHashMap::new
+                ));
+    }
+
 
     public static Set<String> getAllAemServiceSet(String fileName) throws IOException {
 
@@ -204,7 +221,7 @@ public class ReadUtils {
     }
 
     public static void combineBigEnvs(Map<String, Set<EnvDetail>> bigEnvs) {
-        final List<String> lines = ReadUtils.readEnvFiles("disable_env_output.txt").stream().filter(l -> l.startsWith("ethos")).toList();
+        final List<String> lines = ReadUtils.readEnvFiles("disable_env_output.txt").stream().filter(l -> l.startsWith(ETHOS)).toList();
         final Map<String, List<EnvDetail>> exitingBigEnvs = lines.stream().map(l -> {
             String[] s = l.split(" ");
             return new EnvDetail(s[3], s[2], s[0], s[1]);
@@ -276,7 +293,7 @@ public class ReadUtils {
         return Double.compare(Double.parseDouble(r.value()[1].toString()) / (1024 * 1024 * 1024), 70.00d);
     }
 
-    private static EnvDetail keepFirst(EnvDetail e1, EnvDetail e2) {
+    private static <T> T keepFirst(T e1, T e2) {
         return e1; // If there are duplicates, keep the first one
     }
 }

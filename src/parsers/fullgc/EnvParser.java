@@ -66,7 +66,7 @@ public class EnvParser {
                     fileWriter.write("PROGRAM ID : " + key);
                     fileWriter.write("\n");
                     fileWriter.write("\n");
-                    value.entries().stream().filter(e -> ReadUtils.ENUM_SET.contains(EnvType.fromString(e.getKey()))).forEach(e -> {
+                    value.entries().stream().filter(e -> ReadUtils.ENV_TYPE.contains(EnvType.fromString(e.getKey()))).forEach(e -> {
                         try {
                             fileWriter.write(e.getValue().toString());
                             fileWriter.write("\n");

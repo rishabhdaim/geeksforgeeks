@@ -2,15 +2,14 @@ package parsers.compaction;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import parsers.ReadUtils;
+import parsers.compaction.schema.Env;
 import parsers.compaction.schema.CompactResult;
-import parsers.fullgc.schema.Count;
 import parsers.fullgc.schema.Size;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,10 +19,18 @@ public class CheckCompaction {
 
     static void main() throws IOException {
 
-        Set<String> aemService = new HashSet<>(ReadUtils.readEnvFiles("compaction_sample.txt"));
-        Map<String, CompactResult> compactResultMap = new LinkedHashMap<>();
+        final String[] fileName = {"CM_PROD_GRP_1_STAGE.txt", "CM_PROD_GRP_2_STAGE.txt", "CM_PROD_GRP_1_DEV.txt", "CM_PROD_GRP_2_DEV.txt"};
 
-        try (InputStream currentSizeStream = Files.newInputStream(Path.of("storageSize.json")); InputStream originalSizeStream = Files.newInputStream(Path.of("storageSize_original.json"))) {
+        final Map<String, Env> envDetailSet = ReadUtils.getEnvMap(fileName);
+        System.out.println(envDetailSet.size());
+        System.out.println("---------All Envs------------->");
+        envDetailSet.forEach((k, _) -> System.out.println(envDetailSet.get(k)));
+        System.out.println("---------All Envs------------->");
+        final Set<String> aemService = ReadUtils.getAemServiceSet(fileName);
+        System.out.println(aemService.size());
+        final Map<String, CompactResult> compactResultMap = new LinkedHashMap<>();
+
+        try (InputStream currentSizeStream = Files.newInputStream(Path.of("storageSize.json")); InputStream originalSizeStream = Files.newInputStream(Path.of("storageSize_base.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
             Size originalSize = objectMapper.readValue(originalSizeStream, Size.class);
             Size currentSize = objectMapper.readValue(currentSizeStream, Size.class);
@@ -53,6 +60,24 @@ public class CheckCompaction {
 
             aemService.forEach(e -> compactResultMap.put(e, new CompactResult(e, originalSizeMap.get(e), currentSizeMap.get(e))));
             compactResultMap.values().forEach(System.out::println);
+
+            System.out.println("Needs repeat for following");
+            int notFound = 0;
+            int needRepeat = 0;
+
+            for (String s : aemService) {
+                if (!originalSizeMap.containsKey(s) || !currentSizeMap.containsKey(s)) {
+                    System.err.println("Env not found: " + s);
+                    notFound++;
+                    continue;
+                }
+                if (Double.compare(originalSizeMap.get(s), currentSizeMap.get(s)) <= 0) {
+                    System.out.println(envDetailSet.get(s));
+                    needRepeat++;
+                }
+            }
+            System.out.println("Need Repeat : " + needRepeat);
+            System.out.println("Not Found : " + notFound);
         }
     }
 }
