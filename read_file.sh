@@ -111,8 +111,11 @@ else
 
     # Process file line by line
     while IFS= read -r line; do
-        # Skip empty lines and lines starting with "PROGRAM"
+        # Skip empty lines and lines starting with "PROGRAM" (case insensitive)
+        shopt -s nocasematch
         [ -z "$line" ] || [[ "$line" == PROGRAM* ]] && continue
+        shopt -u nocasematch
+
 
         # Check if line starts with "ethos"
         if [[ "$line" == ethos* ]]; then
